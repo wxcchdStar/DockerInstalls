@@ -1,0 +1,28 @@
+version: '3'
+services:
+  confluence:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: confluence
+    container_name: confluence
+    ports:
+      - "8090:8090"
+      - "8091:8091"
+    depends_on:
+      - postgres
+    links:
+      - postgres:confluence-postgres
+    volumes:
+      - /home/docker/confluence/confluence:/var/atlassian/application-data/confluence 
+  postgres:
+    image: "postgres:9.6-alpine"
+    container_name: "confluence-postgres"
+    restart: always
+    volumes:
+      - /home/docker/confluence/postgres:/var/lib/postgresql/data/pgdata
+    environment:
+      POSTGRES_DB: confluence
+      POSTGRES_USER: confluence
+      POSTGRES_PASSWORD: 123456
+      PGDATA: /var/lib/postgresql/data/pgdata

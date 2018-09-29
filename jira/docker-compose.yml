@@ -1,0 +1,27 @@
+version: '3'
+services:
+  jira:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: jira
+    container_name: jira
+    ports:
+        - "8099:8080"
+    depends_on:
+      - postgres
+    links:
+      - postgres:jira-postgres    
+    volumes:
+        - ~/docker/jira/jira:/var/atlassian/jira
+  postgres:
+    image: "postgres:9.6-alpine"
+    container_name: "confluence-postgres"
+    restart: always
+    volumes:
+      - ~/docker/jira/postgres:/var/lib/postgresql/data/pgdata
+    environment:
+      POSTGRES_DB: jira
+      POSTGRES_USER: jira
+      POSTGRES_PASSWORD: 123456
+      PGDATA: /var/lib/postgresql/data/pgdata      

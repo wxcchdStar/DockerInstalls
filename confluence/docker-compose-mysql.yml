@@ -1,0 +1,29 @@
+version: '3'
+services:
+  confluence:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: confluence
+    container_name: confluence
+    ports:
+      - "8090:8090"
+    depends_on:
+      - mysql
+    links:
+      - mysql:confluence-mysql
+    volumes:
+      - /home/docker/confluence/confluence:/var/atlassian/application-data/confluence 
+  mysql:
+    image: "mysql:5.7.21"
+    container_name: "confluence-mysql"
+    restart: always
+    volumes:
+      - /home/docker/confluence/mysql:/var/lib/mysql
+      - ./mysql:/etc/mysql/conf.d
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_USER: confluence
+      MYSQL_PASSWORD: 123456
+      MYSQL_DATABASE: confluence
+      TZ: Asia/Shanghai
