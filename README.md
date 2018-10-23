@@ -1,2 +1,7 @@
 # DockerInstalls
-使用Docker安装运行各种软件和服务
+
+## Jira（破解）
+
+## Confluence（破解）
+
+## SonarQube
